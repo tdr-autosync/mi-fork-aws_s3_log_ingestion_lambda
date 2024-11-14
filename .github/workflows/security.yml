@@ -21,18 +21,12 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install dependencies
-        run: |
-          pip install -r src/requirements.txt
-
       - name: Veracode Agent Based Scan
         env:
           SRCCLR_API_TOKEN: ${{ secrets.AS__VERACODE_AGENT_TOKEN }}
         uses: veracode/veracode-sca@v2.1.12
         with:
           path: 'src'
-          create-issues: false
-          allow-dirty: true
 
       - name: Veracode (create zip)
         run: zip -r src.zip . -x ".git/*" ".github/*" ".env*"
